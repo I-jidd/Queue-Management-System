@@ -69,6 +69,38 @@
       .hidden {
         display: none;
       }
+
+      /* --- NEW CSS FOR TIME SLOTS --- */
+      .time-slot-label {
+        display: block;
+        padding: 0.75rem; /* 12px */
+        text-align: center;
+        border: 2px solid #ddd;
+        border-radius: 0.5rem; /* 8px */
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        font-weight: 600;
+        background-color: #f9f9f9;
+        color: #1a472a; /* brand-dark */
+      }
+      .time-slot-label:hover {
+        background-color: #f0f2e9; /* Light olive/gray */
+      }
+      .time-slot-label.disabled {
+        background-color: #eee;
+        color: #999;
+        cursor: not-allowed;
+        border-color: #eee;
+      }
+
+      /* Style for the selected time slot's label */
+      input[type="radio"]:checked + .time-slot-label {
+        border-color: #1a472a; /* brand-dark */
+        background-color: #8a9a5b; /* brand-olive */
+        color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+      /* --- END OF NEW CSS --- */
     </style>
   </head>
   <body class="font-sans antialiased text-neutral-DEFAULT p-4">
@@ -255,34 +287,82 @@
             <label class="font-semibold text-neutral-dark"
               >Select a Time Window:</label
             >
+            <!-- UPDATED: Replaced buttons with radio inputs -->
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-2">
-              <!-- Example Time Slots -->
-              <button
-                type="button"
-                class="p-3 bg-brand-light text-brand-dark font-semibold rounded-lg hover:bg-brand-olive hover:text-white transition"
-              >
-                9:00 AM - 9:30 AM
-              </button>
-              <button
-                type="button"
-                class="p-3 bg-brand-light text-brand-dark font-semibold rounded-lg hover:bg-brand-olive hover:text-white transition"
-              >
-                9:30 AM - 10:00 AM
-              </button>
-              <button
-                type="button"
-                class="p-3 bg-gray-200 text-gray-500 rounded-lg cursor-not-allowed"
-                disabled
-              >
-                10:00 AM - 10:30 AM
-              </button>
-              <button
-                type="button"
-                class="p-3 bg-brand-light text-brand-dark font-semibold rounded-lg hover:bg-brand-olive hover:text-white transition"
-              >
-                10:30 AM - 11:00 AM
-              </button>
-              <!-- ... more slots ... -->
+              <!-- Example Time Slots as Radio Buttons -->
+              <div class="relative">
+                <input
+                  type="radio"
+                  id="time-1"
+                  name="time-window"
+                  value="09:00-09:30"
+                  class="absolute opacity-0 w-0 h-0"
+                />
+                <label for="time-1" class="time-slot-label"
+                  >9:00 AM - 9:30 AM</label
+                >
+              </div>
+              <div class="relative">
+                <input
+                  type="radio"
+                  id="time-2"
+                  name="time-window"
+                  value="09:30-10:00"
+                  class="absolute opacity-0 w-0 h-0"
+                />
+                <label for="time-2" class="time-slot-label"
+                  >9:30 AM - 10:00 AM</label
+                >
+              </div>
+              <div class="relative">
+                <input
+                  type="radio"
+                  id="time-3"
+                  name="time-window"
+                  value="10:00-10:30"
+                  class="absolute opacity-0 w-0 h-0"
+                  disabled
+                />
+                <label for="time-3" class="time-slot-label disabled"
+                  >10:00 AM - 10:30 AM</label
+                >
+              </div>
+              <div class="relative">
+                <input
+                  type="radio"
+                  id="time-4"
+                  name="time-window"
+                  value="10:30-11:00"
+                  class="absolute opacity-0 w-0 h-0"
+                />
+                <label for="time-4" class="time-slot-label"
+                  >10:30 AM - 11:00 AM</label
+                >
+              </div>
+              <div class="relative">
+                <input
+                  type="radio"
+                  id="time-5"
+                  name="time-window"
+                  value="11:00-11:30"
+                  class="absolute opacity-0 w-0 h-0"
+                />
+                <label for="time-5" class="time-slot-label"
+                  >11:00 AM - 11:30 AM</label
+                >
+              </div>
+              <div class="relative">
+                <input
+                  type="radio"
+                  id="time-6"
+                  name="time-window"
+                  value="11:30-12:00"
+                  class="absolute opacity-0 w-0 h-0"
+                />
+                <label for="time-6" class="time-slot-label"
+                  >11:30 AM - 12:00 PM</label
+                >
+              </div>
             </div>
 
             <button
