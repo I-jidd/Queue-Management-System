@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forms & FAQ - Registrar Queue System</title>
+
+    <!-- We're using Tailwind CSS for rapid, clean, responsive design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            colors: {
+              // New CMU Color Palette
+              brand: {
+                dark: "#1A472A", // CMU Dark Green
+                medium: "#1E6033", // CMU Medium Green
+                olive: "#8A9A5B", // CMU Olive
+                gold: "#FDCB0A", // CMU Gold
+              },
+              neutral: {
+                light: "#f4f7f6",
+                DEFAULT: "#495057",
+                dark: "#333333", // A more neutral dark for text
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Page Styles -->
+    <style>
+      /* Ensures the app takes up the full height */
+      body {
+        background-color: #f4f7f6; /* Use Tailwind's neutral-light */
+      }
+
+      /* Custom styles for the <details> accordion */
+      details > summary {
+        list-style: none; /* Hide default marker */
+        cursor: pointer;
+      }
+      details > summary::-webkit-details-marker {
+        display: none; /* Hide default marker in Chrome/Safari */
+      }
+
+      /* Custom accordion marker using new brand color */
+      details > summary:before {
+        content: "[+]";
+        font-weight: bold;
+        margin-right: 10px;
+        color: #1e6033; /* brand-medium */
+      }
+
+      details[open] > summary:before {
+        content: "[−]"; /* Minus sign when open */
+        color: #1a472a; /* brand-dark */
+      }
+
+      details[open] > summary {
+        background-color: #f0f2e9; /* A light olive/gray */
+      }
+    </style>
+  </head>
+  <body class="font-sans antialiased text-neutral-DEFAULT p-4">
+    <!-- Main Container -->
+    <div
+      class="container max-w-2xl w-full mx-auto my-5 p-6 md:p-8 bg-white rounded-xl shadow-lg"
+    >
+      <!-- Header -->
+      <header
+        class="flex items-center border-b-2 border-gray-200 pb-4 mb-6 md:mb-8"
+      >
+        <!-- Updated Placeholder Logo -->
+        <img
+          src="https://placehold.co/50x50/1A472A/FFFFFF?text=LOGO"
+          alt="University Logo"
+          class="rounded-full"
+        />
+        <h1 class="text-xl md:text-2xl font-bold text-brand-dark ml-4">
+          Registrar Queue System
+        </h1>
+      </header>
+
+      <!-- Main Content -->
+      <main>
+        <!-- 1. Back Link (HCI: User Control & Freedom) -->
+        <a
+          href="index.html"
+          class="inline-flex items-center mb-6 text-brand-medium font-semibold hover:text-brand-dark hover:underline"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 mr-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            />
+          </svg>
+          Back to Home
+        </a>
+
+        <!-- 2. Search Bar (HCI: Search-First Design) -->
+        <div class="relative mb-8">
+          <input
+            type="search"
+            class="w-full pl-10 pr-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-brand-medium focus:ring-1 focus:ring-brand-medium"
+            placeholder="Search for a form or question..."
+          />
+          <svg
+            class="w-6 h-6 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </div>
+
+        <!-- 3. Common Forms Section (HCI: Task-Based Labels) -->
+        <section class="mb-8">
+          <h2
+            class="text-xl font-semibold text-neutral-dark border-b-2 border-gray-200 pb-2 mb-4"
+          >
+            Common Forms
+          </h2>
+
+          <!-- Accordion 1 (HCI: Progressive Disclosure) -->
+          <details class="border border-gray-200 rounded-lg mb-2">
+            <summary
+              class="p-4 font-semibold text-brand-dark bg-gray-50 rounded-lg"
+            >
+              Category: Enrollment & Classes
+            </summary>
+            <div class="p-4 border-t border-gray-200">
+              <!-- 'download' attribute tells browser to download the file -->
+              <a
+                href="#"
+                download
+                class="block py-2 text-brand-medium hover:text-brand-dark hover:underline"
+                >Download: Add/Drop Subject Form (PDF)</a
+              >
+              <a
+                href="#"
+                download
+                class="block py-2 text-brand-medium hover:text-brand-dark hover:underline"
+                >Download: Class Overload Request (PDF)</a
+              >
+              <a
+                href="#"
+                download
+                class="block py-2 text-brand-medium hover:text-brand-dark hover:underline"
+                >Download: INC Completion Form (PDF)</a
+              >
+            </div>
+          </details>
+
+          <!-- Accordion 2 -->
+          <details class="border border-gray-200 rounded-lg mb-2">
+            <summary
+              class="p-4 font-semibold text-brand-dark bg-gray-50 rounded-lg"
+            >
+              Category: Grades & Transcripts
+            </summary>
+            <div class="p-4 border-t border-gray-200">
+              <a
+                href="#"
+                download
+                class="block py-2 text-brand-medium hover:text-brand-dark hover:underline"
+                >Download: Transcript Request Form (PDF)</a
+              >
+              <a
+                href="#"
+                download
+                class="block py-2 text-brand-medium hover:text-brand-dark hover:underline"
+                >Download: Grade Correction Form (PDF)</a
+              >
+            </div>
+          </details>
+
+          <!-- Accordion 3 -->
+          <details class="border border-gray-200 rounded-lg mb-2">
+            <summary
+              class="p-4 font-semibold text-brand-dark bg-gray-50 rounded-lg"
+            >
+              Category: Graduation
+            </summary>
+            <div class="p-4 border-t border-gray-200">
+              <a
+                href="#"
+                download
+                class="block py-2 text-brand-medium hover:text-brand-dark hover:underline"
+                >Download: Application for Graduation Form (PDF)</a
+              >
+            </div>
+          </details>
+        </section>
+
+        <!-- 4. FAQ Section -->
+        <section>
+          <h2
+            class="text-xl font-semibold text-neutral-dark border-b-2 border-gray-200 pb-2 mb-4"
+          >
+            Frequently Asked Questions
+          </h2>
+
+          <!-- FAQ 1 -->
+          <details class="border border-gray-200 rounded-lg mb-2">
+            <summary
+              class="p-4 font-semibold text-brand-dark bg-gray-50 rounded-lg"
+            >
+              What is the deadline for adding/dropping?
+            </summary>
+            <div class="p-4 border-t border-gray-200 space-y-2">
+              <p>
+                The deadline for adding or dropping subjects for the current
+                semester is <strong>November 20, 2025</strong>. No requests will
+                be processed after this date.
+              </p>
+            </div>
+          </details>
+
+          <!-- FAQ 2 -->
+          <details class="border border-gray-200 rounded-lg mb-2">
+            <summary
+              class="p-4 font-semibold text-brand-dark bg-gray-50 rounded-lg"
+            >
+              How do I get my transcript of records?
+            </summary>
+            <div class="p-4 border-t border-gray-200 space-y-2">
+              <p>To get your transcript, you must:</p>
+              <ol class="list-decimal list-inside ml-2">
+                <li>
+                  Download the "Transcript Request Form" from the section above.
+                </li>
+                <li>Pay the corresponding fee at the Cashier's Office.</li>
+                <li>
+                  Get a "Get a Batch Number" from this website and select
+                  "Submit Transcript Request."
+                </li>
+                <li>
+                  Bring your receipt and the filled-out form during your time
+                  slot.
+                </li>
+              </ol>
+            </div>
+          </details>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer
+        class="text-center mt-8 pt-6 border-t border-gray-200 text-sm text-gray-500"
+      >
+        <p>
+          &copy; 2025 Your University |
+          <a
+            href="#"
+            class="text-brand-medium hover:text-brand-dark hover:underline"
+            >Staff Login</a
+          >
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
