@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Queue Status - Registrar</title>
+
+    <!-- We're using Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            colors: {
+              // CMU Color Palette
+              brand: {
+                dark: "#1A472A",
+                medium: "#1E6033",
+                olive: "#8A9A5B",
+                gold: "#FDCB0A",
+              },
+              neutral: {
+                light: "#f4f7f6",
+                DEFAULT: "#495057",
+                dark: "#333333",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Page Styles -->
+    <style>
+      body {
+        /* This page is meant to be a dashboard, so it's dark */
+        background-color: #1a472a; /* brand-dark */
+      }
+    </style>
+  </head>
+  <body class="font-sans antialiased text-white p-4 md:p-8">
+    <!-- Main Container -->
+    <div class="container max-w-6xl w-full mx-auto">
+      <!-- Header -->
+      <header
+        class="flex items-center justify-between pb-4 border-b-2 border-brand-medium"
+      >
+        <h1 class="text-2xl md:text-3xl font-bold">Registrar Queue Status</h1>
+        <div class="text-right">
+          <div class="text-3xl font-bold">Today</div>
+          <div class="text-sm opacity-90" id="current-time">--:--:-- --</div>
+        </div>
+      </header>
+
+      <!-- Main Content: The Status Board -->
+      <main class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Card 1: Standard Batch Queue -->
+        <div
+          class="bg-white text-neutral-dark rounded-xl shadow-2xl p-6 md:p-8"
+        >
+          <h2
+            class="text-xl font-semibold text-neutral-DEFAULT uppercase tracking-wide"
+          >
+            Standard Batch Queue
+          </h2>
+          <p class="text-sm text-neutral-DEFAULT mb-4">
+            (For Add/Drop, INC Clearance, etc.)
+          </p>
+
+          <div class="text-center mt-6">
+            <p class="text-lg font-semibold text-neutral-DEFAULT">
+              Now Serving:
+            </p>
+            <div
+              id="standard-status-batch"
+              class="text-7xl md:text-8xl font-extrabold text-brand-dark my-4"
+            >
+              ---
+            </div>
+            <div
+              id="standard-status-time"
+              class="text-2xl font-semibold text-neutral-DEFAULT"
+            >
+              (Waiting for first call)
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Express Queue -->
+        <div
+          class="bg-white text-neutral-dark rounded-xl shadow-2xl p-6 md:p-8"
+        >
+          <h2
+            class="text-xl font-semibold text-neutral-DEFAULT uppercase tracking-wide"
+          >
+            Express Queue
+          </h2>
+          <p class="text-sm text-neutral-DEFAULT mb-4">
+            (For Quick Questions, Form Submission)
+          </p>
+
+          <div class="text-center mt-6">
+            <p class="text-lg font-semibold text-neutral-DEFAULT">
+              Now Serving:
+            </p>
+            <div
+              id="express-status-batch"
+              class="text-7xl md:text-8xl font-extrabold text-brand-medium my-4"
+            >
+              ---
+            </div>
+            <div
+              id="express-status-time"
+              class="text-2xl font-semibold text-neutral-DEFAULT"
+            >
+              (Waiting for first call)
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const standardBatchEl = document.getElementById(
+          "standard-status-batch"
+        );
+        const standardTimeEl = document.getElementById("standard-status-time");
+        const expressBatchEl = document.getElementById("express-status-batch");
+        const timeEl = document.getElementById("current-time");
+
+        // --- 1. Function to update the clock ---
+        function updateClock() {
+          const now = new Date();
+          timeEl.textContent = now.toLocaleTimeString("en-US");
+        }
+        // Run it immediately and then every second
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // --- 2. Function to update the status ---
+        function updateStatus() {
+          // Read from localStorage (where admin.html will "broadcast")
+          const standardBatch = localStorage.getItem("current_standard_batch");
+          const standardTime = localStorage.getItem("current_standard_time");
+          const expressBatch = localStorage.getItem("current_express_batch");
+
+          // Update Standard Queue
+          if (standardBatch && standardTime) {
+            standardBatchEl.textContent = standardBatch;
+            standardTimeEl.textContent = `(${standardTime})`;
+          }
+
+          // Update Express Queue
+          if (expressBatch) {
+            expressBatchEl.textContent = expressBatch;
+            // You could add a time element for express too if needed
+          }
+        }
+
+        // Run it immediately
+        updateStatus();
+
+        // --- 3. Listen for changes ---
+        // This is the magic. It auto-updates the page without a refresh
+        // if another tab (like admin.html) changes localStorage.
+        window.addEventListener("storage", function (e) {
+          updateStatus();
+        });
+
+        // As a fallback, check for updates every 3 seconds
+        // This catches cases where the 'storage' event might not fire
+        setInterval(updateStatus, 3000);
+      });
+    </script>
+  </body>
+</html>
