@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale-1.0" />
+    <title>Registrar Queue System</title>
+
+    <!-- We're using Tailwind CSS for rapid, clean, responsive design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            colors: {
+              // New CMU Color Palette
+              brand: {
+                dark: "#1A472A", // CMU Dark Green
+                medium: "#1E6033", // CMU Medium Green
+                olive: "#8A9A5B", // CMU Olive
+                gold: "#FDCB0A", // CMU Gold
+              },
+              neutral: {
+                light: "#f4f7f6",
+                DEFAULT: "#495057",
+                dark: "#333333", // A more neutral dark for text
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Page Styles -->
+    <style>
+      /* Ensures the app takes up the full height */
+      html,
+      body {
+        height: 100%;
+        background-color: #f4f7f6; /* Use Tailwind's neutral-light */
+      }
+    </style>
+  </head>
+  <body
+    class="font-sans antialiased text-neutral-DEFAULT flex items-center justify-center min-h-screen p-4"
+  >
+    <!-- Main Container -->
+    <div
+      class="container max-w-2xl w-full mx-auto p-6 md:p-8 bg-white rounded-xl shadow-lg"
+    >
+      <!-- Header -->
+      <header
+        class="flex items-center border-b-2 border-gray-200 pb-4 mb-6 md:mb-8"
+      >
+        <!-- Updated Placeholder Logo with CMU Dark Green -->
+        <img
+          src="https://placehold.co/50x50/1A472A/FFFFFF?text=LOGO"
+          alt="University Logo"
+          class="rounded-full"
+        />
+        <h1 class="text-xl md:text-2xl font-bold text-brand-dark ml-4">
+          Registrar Queue System
+        </h1>
+      </header>
+
+      <!-- Main Content -->
+      <main>
+        <h2
+          class="text-xl md:text-2xl font-semibold text-center mb-6 md:mb-8 text-neutral-dark"
+        >
+          What do you need today?
+        </h2>
+
+        <!-- Button 1: Find a Form or FAQ -->
+        <!-- Now a solid, high-contrast button (CMU Olive) -->
+        <a
+          href="forms.html"
+          class="block w-full p-5 mb-4 text-left bg-brand-olive border-2 border-brand-olive rounded-lg shadow-sm transition-all duration-200 ease-in-out hover:bg-opacity-90 hover:shadow-lg hover:-translate-y-0.5 group"
+        >
+          <div class="text-lg font-semibold text-white">Find a Form or FAQ</div>
+          <div class="text-sm text-gray-100">
+            (For downloading forms or quick answers)
+          </div>
+        </a>
+
+        <!-- Button 2: Get a Batch Number -->
+        <!-- The primary button (CMU Dark Green) -->
+        <a
+          href="get-batch.html"
+          class="block w-full p-5 text-left bg-brand-dark border-2 border-brand-dark rounded-lg shadow-sm transition-all duration-200 ease-in-out hover:bg-brand-medium hover:border-brand-medium hover:shadow-lg hover:-translate-y-0.5 group"
+        >
+          <div class="text-lg font-semibold text-white">Get a Batch Number</div>
+          <div class="text-sm text-gray-100">
+            (To see registrar staff for a transaction)
+          </div>
+        </a>
+      </main>
+
+      <!-- Footer -->
+      <footer
+        class="text-center mt-8 pt-6 border-t border-gray-200 text-sm text-gray-500"
+      >
+        <!-- Updated link color -->
+        <p>
+          &copy; 2025 Your University |
+          <a
+            href="#"
+            class="text-brand-medium hover:text-brand-dark hover:underline"
+            >Staff Login</a
+          >
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
