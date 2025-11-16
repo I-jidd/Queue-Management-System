@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get a Batch - Registrar Queue System</title>
+
+    <!-- We're using Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            colors: {
+              // CMU Color Palette
+              brand: {
+                dark: "#1A472A", // CMU Dark Green
+                medium: "#1E6033", // CMU Medium Green
+                olive: "#8A9A5B", // CMU Olive
+                gold: "#FDCB0A", // CMU Gold
+              },
+              neutral: {
+                light: "#f4f7f6",
+                DEFAULT: "#495057",
+                dark: "#333333",
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Page Styles -->
+    <style>
+      body {
+        background-color: #f4f7f6;
+      }
+      /* Custom radio button styles for a cleaner look */
+      input[type="radio"]:checked {
+        background-color: #1a472a; /* brand-dark */
+        border-color: #1a472a;
+      }
+      input[type="radio"]:checked:focus {
+        box-shadow: 0 0 0 3px rgba(26, 71, 42, 0.3); /* brand-dark with opacity */
+      }
+      .step-label {
+        display: block;
+        padding: 1.25rem; /* 20px */
+        border: 2px solid #ddd;
+        border-radius: 0.5rem; /* 8px */
+        margin-bottom: 0.75rem; /* 12px */
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+      }
+      .step-label:hover {
+        background-color: #f9f9f9;
+      }
+      /* Style for the selected radio button's label */
+      input[type="radio"]:checked + .step-label {
+        border-color: #1a472a; /* brand-dark */
+        background-color: #f0f2e9; /* Light olive/gray */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      /* Utility to hide elements */
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body class="font-sans antialiased text-neutral-DEFAULT p-4">
+    <!-- Main Container -->
+    <div
+      class="container max-w-2xl w-full mx-auto my-5 p-6 md:p-8 bg-white rounded-xl shadow-lg"
+    >
+      <!-- Header -->
+      <header
+        class="flex items-center border-b-2 border-gray-200 pb-4 mb-6 md:mb-8"
+      >
+        <img
+          src="https://placehold.co/50x50/1A472A/FFFFFF?text=LOGO"
+          alt="University Logo"
+          class="rounded-full"
+        />
+        <h1 class="text-xl md:text-2xl font-bold text-brand-dark ml-4">
+          Registrar Queue System
+        </h1>
+      </header>
+
+      <!-- Main Content -->
+      <main>
+        <!-- 1. Back Link (HCI: User Control & Freedom) -->
+        <a
+          href="index.html"
+          class="inline-flex items-center mb-6 text-brand-medium font-semibold hover:text-brand-dark hover:underline"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 mr-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            />
+          </svg>
+          Back to Home
+        </a>
+
+        <!-- This is the "Smart Triage" form -->
+        <!-- I've updated this form tag to point to our next step -->
+        <form id="triage-form" action="confirmation.html" method="GET">
+          <!-- STEP 1: SELECT SERVICE -->
+          <div id="step-1-service">
+            <h2 class="text-xl font-semibold text-neutral-dark mb-1">
+              Step 1: What is the purpose of your visit?
+            </h2>
+            <p class="text-neutral-DEFAULT mb-4">
+              Select one. This will help us serve you faster.
+            </p>
+
+            <div class="space-y-3">
+              <!-- These are "STANDARD" services -->
+              <div class="relative">
+                <input
+                  type="radio"
+                  id="service-add-drop"
+                  name="service"
+                  value="add-drop"
+                  data-type="standard"
+                  class="absolute opacity-0 w-0 h-0"
+                />
+                <label for="service-add-drop" class="step-label">
+                  <span class="font-semibold text-lg text-neutral-dark block"
+                    >Add/Drop Subjects or Registration</span
+                  >
+                  <span class="text-neutral-DEFAULT text-sm"
+                    >For complex schedule changes or solving registration
+                    holds.</span
+                  >
+                </label>
+              </div>
+
+              <div class="relative">
+                <input
+                  type="radio"
+                  id="service-inc"
+                  name="service"
+                  value="inc-clearance"
+                  data-type="standard"
+                  class="absolute opacity-0 w-0 h-0"
+                />
+                <label for="service-inc" class="step-label">
+                  <span class="font-semibold text-lg text-neutral-dark block"
+                    >INC Clearance / Grade Correction</span
+                  >
+                  <span class="text-neutral-DEFAULT text-sm"
+                    >Submitting and processing grade-related paperwork.</span
+                  >
+                </label>
+              </div>
+
+              <!-- These are "EXPRESS" services -->
+              <div class="relative">
+                <input
+                  type="radio"
+                  id="service-submit"
+                  name="service"
+                  value="submit-form"
+                  data-type="express"
+                  class="absolute opacity-0 w-0 h-0"
+                />
+                <label for="service-submit" class="step-label">
+                  <span class="font-semibold text-lg text-neutral-dark block"
+                    >Submit a Form</span
+                  >
+                  <span class="text-neutral-DEFAULT text-sm"
+                    >Just dropping off a pre-signed form (e.g., transcript
+                    request, graduation application).</span
+                  >
+                </label>
+              </div>
+
+              <div class="relative">
+                <input
+                  type="radio"
+                  id="service-pickup"
+                  name="service"
+                  value="pickup-doc"
+                  data-type="express"
+                  class="absolute opacity-0 w-0 h-0"
+                />
+                <label for="service-pickup" class="step-label">
+                  <span class="font-semibold text-lg text-neutral-dark block"
+                    >Pick up a Document or Form</span
+                  >
+                  <span class="text-neutral-DEFAULT text-sm"
+                    >Getting a physical form or picking up a requested
+                    document.</span
+                  >
+                </label>
+              </div>
+
+              <div class="relative">
+                <input
+                  type="radio"
+                  id="service-question"
+                  name="service"
+                  value="quick-question"
+                  data-type="express"
+                  class="absolute opacity-0 w-0 h-0"
+                />
+                <label for="service-question" class="step-label">
+                  <span class="font-semibold text-lg text-neutral-dark block"
+                    >Ask a Quick Question</span
+                  >
+                  <span class="text-neutral-DEFAULT text-sm"
+                    >A simple, 1-2 minute question for the staff.</span
+                  >
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 2: DYNAMIC SECTION (Hidden by default) -->
+
+          <!-- This part shows for "STANDARD" services -->
+          <div id="step-2-standard" class="mt-8 hidden">
+            <hr class="mb-8" />
+            <h2 class="text-xl font-semibold text-neutral-dark mb-1">
+              Step 2: Book Your Time Slot
+            </h2>
+            <p class="text-neutral-DEFAULT mb-4">
+              This reserves your spot. You can arrive any time within this
+              30-minute window.
+            </p>
+
+            <!-- In a real app, this calendar would be dynamic -->
+            <label for="date-picker" class="font-semibold text-neutral-dark"
+              >Select a Date:</label
+            >
+            <input
+              type="date"
+              id="date-picker"
+              class="w-full p-2 border border-gray-300 rounded-lg mt-1 mb-4"
+            />
+
+            <label class="font-semibold text-neutral-dark"
+              >Select a Time Window:</label
+            >
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-2">
+              <!-- Example Time Slots -->
+              <button
+                type="button"
+                class="p-3 bg-brand-light text-brand-dark font-semibold rounded-lg hover:bg-brand-olive hover:text-white transition"
+              >
+                9:00 AM - 9:30 AM
+              </button>
+              <button
+                type="button"
+                class="p-3 bg-brand-light text-brand-dark font-semibold rounded-lg hover:bg-brand-olive hover:text-white transition"
+              >
+                9:30 AM - 10:00 AM
+              </button>
+              <button
+                type="button"
+                class="p-3 bg-gray-200 text-gray-500 rounded-lg cursor-not-allowed"
+                disabled
+              >
+                10:00 AM - 10:30 AM
+              </button>
+              <button
+                type="button"
+                class="p-3 bg-brand-light text-brand-dark font-semibold rounded-lg hover:bg-brand-olive hover:text-white transition"
+              >
+                10:30 AM - 11:00 AM
+              </button>
+              <!-- ... more slots ... -->
+            </div>
+
+            <button
+              type="submit"
+              class="w-full bg-brand-dark text-white font-bold py-3 px-4 rounded-lg mt-8 hover:bg-brand-medium transition text-lg"
+            >
+              Confirm & Get Checklist
+            </button>
+          </div>
+
+          <!-- This part shows for "EXPRESS" services -->
+          <div id="step-2-express" class="mt-8 hidden">
+            <hr class="mb-8" />
+            <h2 class="text-xl font-semibold text-neutral-dark mb-1">
+              You're on the Express Lane!
+            </h2>
+            <p class="text-neutral-DEFAULT mb-4">
+              Your visit is quick, so no appointment is needed. We'll get you in
+              the fast lane.
+            </p>
+
+            <button
+              type="submit"
+              class="w-full bg-brand-olive text-white font-bold py-3 px-4 rounded-lg hover:bg-opacity-90 transition text-lg"
+            >
+              Get Express Ticket & Checklist
+            </button>
+          </div>
+        </form>
+      </main>
+
+      <!-- Footer -->
+      <footer
+        class="text-center mt-8 pt-6 border-t border-gray-200 text-sm text-gray-500"
+      >
+        <p>
+          &copy; 2025 Your University |
+          <a
+            href="#"
+            class="text-brand-medium hover:text-brand-dark hover:underline"
+            >Staff Login</a
+          >
+        </p>
+      </footer>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get all the radio buttons
+        const serviceRadios = document.querySelectorAll(
+          'input[name="service"]'
+        );
+
+        // Get the two dynamic sections
+        const standardSection = document.getElementById("step-2-standard");
+        const expressSection = document.getElementById("step-2-express");
+
+        // Listen for a change on any radio button
+        serviceRadios.forEach((radio) => {
+          radio.addEventListener("change", function () {
+            // Find out what type (standard or express) was selected
+            const selectedType = this.getAttribute("data-type");
+
+            if (selectedType === "standard") {
+              // Show standard, hide express
+              standardSection.classList.remove("hidden");
+              expressSection.classList.add("hidden");
+            } else if (selectedType === "express") {
+              // Show express, hide standard
+              expressSection.classList.remove("hidden");
+              standardSection.classList.add("hidden");
+            }
+          });
+        });
+
+        // Note: In a real app, clicking "Confirm" or "Get Express Ticket"
+        // would submit this form, create a database entry, and then
+        // redirect the user to the "confirmation.html" page
+        // to show their ticket and the checklist.
+      });
+    </script>
+  </body>
+</html>
