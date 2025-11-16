@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Staff Dashboard - Registrar Queue</title>
+
+    <!-- We're using Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            colors: {
+              // CMU Color Palette
+              brand: {
+                dark: "#1A472A",
+                medium: "#1E6033",
+                olive: "#8A9A5B",
+                gold: "#FDCB0A",
+              },
+              neutral: {
+                light: "#f4f7f6",
+                DEFAULT: "#495057",
+                dark: "#333333",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Page Styles -->
+    <style>
+      body {
+        background-color: #f4f7f6;
+      }
+      /* Style for the tabs */
+      .tab-button {
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        color: #495057; /* neutral-DEFAULT */
+        border-bottom: 3px solid transparent;
+        transition: all 0.2s ease;
+      }
+      .tab-button.active {
+        color: #1a472a; /* brand-dark */
+        border-bottom-color: #1a472a; /* brand-dark */
+      }
+      .tab-button:hover:not(.active) {
+        background-color: #f9f9f9;
+      }
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
+      }
+
+      /* --- NEW CSS for highlighting and completing tasks --- */
+      .queue-row.completed {
+        background-color: #f9f9f9;
+        opacity: 0.6;
+        text-decoration: line-through;
+      }
+      .queue-row.now-serving {
+        /* CMU Gold */
+        background-color: #fefbec;
+        border-left: 4px solid #fdcb0a;
+      }
+    </style>
+  </head>
+  <body class="font-sans antialiased text-neutral-DEFAULT p-4">
+    <!-- Main Container -->
+    <div class="container max-w-6xl w-full mx-auto my-5">
+      <!-- Header -->
+      <header
+        class="flex items-center justify-between p-4 bg-brand-dark text-white rounded-lg shadow-md"
+      >
+        <div>
+          <h1 class="text-2xl font-bold">Staff Dashboard</h1>
+          <p class="text-sm opacity-90">Registrar Queue Management</p>
+        </div>
+        <a
+          href="index.html"
+          class="font-semibold text-white hover:text-gray-200 hover:underline"
+        >
+          &larr; Back to Student Site
+        </a>
+      </header>
+
+      <!-- Main Content -->
+      <main class="mt-6 bg-white rounded-xl shadow-lg p-6 md:p-8">
+        <!-- Tab Navigation -->
+        <div class="border-b border-gray-200 mb-6">
+          <nav class="flex -mb-px">
+            <button id="tab-standard-btn" class="tab-button active">
+              Standard Batch Queue (5)
+            </button>
+            <button id="tab-express-btn" class="tab-button">
+              Express Queue (2)
+            </button>
+          </nav>
+        </div>
+
+        <!-- Tab 1: Standard Batch Queue -->
+        <div id="tab-standard-content" class="tab-content active">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-neutral-dark">
+              Standard Batch Queue
+            </h2>
+            <!-- This button will be used in Phase 3 -->
+            <button
+              id="call-next-standard"
+              class="bg-brand-dark text-white font-bold py-2 px-5 rounded-lg hover:bg-brand-medium transition"
+            >
+              Call Next Batch (9:00 AM)
+            </button>
+          </div>
+
+          <!-- This is the "Staff View" table -->
+          <!-- In a real app, PHP would generate these rows from the database -->
+          <div class="overflow-x-auto rounded-lg border">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Time Window
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Batch #
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Service
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Status
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                id="standard-queue-body"
+                class="bg-white divide-y divide-gray-200"
+              >
+                <!-- Example Row 1 (Pending) -->
+                <tr class="queue-row" data-batch="S-12">
+                  <!-- Highlight pending -->
+                  <td
+                    class="px-6 py-4 whitespace-nowrap font-medium text-brand-dark"
+                  >
+                    9:00 AM - 9:30 AM
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap font-medium">S-12</td>
+                  <td class="px-6 py-4 whitespace-nowrap">Add/Drop Subjects</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      class="status-badge px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-200 rounded-full"
+                      >Pending</span
+                    >
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <button
+                      class="action-btn-complete text-brand-medium hover:text-brand-dark font-semibold"
+                    >
+                      Complete
+                    </button>
+                  </td>
+                </tr>
+                <!-- Example Row 2 (Pending) -->
+                <tr class="queue-row" data-batch="S-13">
+                  <td
+                    class="px-6 py-4 whitespace-nowrap font-medium text-brand-dark"
+                  >
+                    9:00 AM - 9:30 AM
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap font-medium">S-13</td>
+                  <td class="px-6 py-4 whitespace-nowrap">INC Clearance</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      class="status-badge px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-200 rounded-full"
+                      >Pending</span
+                    >
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <button
+                      class="action-btn-complete text-brand-medium hover:text-brand-dark font-semibold"
+                    >
+                      Complete
+                    </button>
+                  </td>
+                </tr>
+                <!-- Example Row 3 (Pending) -->
+                <tr class="queue-row" data-batch="S-14">
+                  <td
+                    class="px-6 py-4 whitespace-nowrap font-medium text-brand-dark"
+                  >
+                    9:30 AM - 10:00 AM
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap font-medium">S-14</td>
+                  <td class="px-6 py-4 whitespace-nowrap">Add/Drop Subjects</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      class="status-badge px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-200 rounded-full"
+                      >Pending</span
+                    >
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <button
+                      class="action-btn-complete text-brand-medium hover:text-brand-dark font-semibold"
+                    >
+                      Complete
+                    </button>
+                  </td>
+                </tr>
+                <!-- Example Row 4 (Completed) -->
+                <tr class="queue-row completed" data-batch="S-10">
+                  <td class="px-6 py-4 whitespace-nowrap">8:30 AM - 9:00 AM</td>
+                  <td class="px-6 py-4 whitespace-nowrap">S-10</td>
+                  <td class="px-6 py-4 whitespace-nowrap">INC Clearance</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      class="status-badge px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full"
+                      >Completed</span
+                    >
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <button class="action-btn-complete text-gray-400" disabled>
+                      Complete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab 2: Express Queue -->
+        <div id="tab-express-content" class="tab-content">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-neutral-dark">
+              Express Queue
+            </h2>
+            <button
+              id="call-next-express"
+              class="bg-brand-olive text-white font-bold py-2 px-5 rounded-lg hover:bg-opacity-90 transition"
+            >
+              Call Next (Q-101)
+            </button>
+          </div>
+
+          <div class="overflow-x-auto rounded-lg border">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Batch #
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Service
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Status
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                id="express-queue-body"
+                class="bg-white divide-y divide-gray-200"
+              >
+                <!-- Example Row 1 (Pending) -->
+                <tr class="queue-row" data-batch="Q-101">
+                  <td class="px-6 py-4 whitespace-nowrap font-medium">Q-101</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    Ask a Quick Question
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      class="status-badge px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-200 rounded-full"
+                      >Waiting</span
+                    >
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <button
+                      class="action-btn-complete text-brand-medium hover:text-brand-dark font-semibold"
+                    >
+                      Complete
+                    </button>
+                  </td>
+                </tr>
+                <!-- Example Row 2 (Pending) -->
+                <tr class="queue-row" data-batch="Q-102">
+                  <td class="px-6 py-4 whitespace-nowrap font-medium">Q-102</td>
+                  <td class="px-6 py-4 whitespace-nowrap">Submit a Form</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      class="status-badge px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-200 rounded-full"
+                      >Waiting</span
+                    >
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <button
+                      class="action-btn-complete text-brand-medium hover:text-brand-dark font-semibold"
+                    >
+                      Complete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC FOR TABS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // --- Tab Logic ---
+        const standardBtn = document.getElementById("tab-standard-btn");
+        const expressBtn = document.getElementById("tab-express-btn");
+        const standardContent = document.getElementById("tab-standard-content");
+        const expressContent = document.getElementById("tab-express-content");
+
+        standardBtn.addEventListener("click", function () {
+          standardBtn.classList.add("active");
+          standardContent.classList.add("active");
+          expressBtn.classList.remove("active");
+          expressContent.classList.remove("active");
+        });
+
+        expressBtn.addEventListener("click", function () {
+          expressBtn.classList.add("active");
+          expressContent.classList.add("active");
+          standardBtn.classList.remove("active");
+          standardContent.classList.remove("active");
+        });
+
+        // --- NEW: Queue Management Logic ---
+
+        // --- 1. "Complete Button" Logic ---
+        // Find all "Complete" buttons
+        const completeButtons = document.querySelectorAll(
+          ".action-btn-complete"
+        );
+
+        completeButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            // Find the parent row (tr) of the button clicked
+            const row = this.closest(".queue-row");
+            if (row && !row.classList.contains("completed")) {
+              // Add 'completed' style
+              row.classList.add("completed");
+
+              // Change status badge
+              const statusBadge = row.querySelector(".status-badge");
+              if (statusBadge) {
+                statusBadge.textContent = "Completed";
+                statusBadge.classList.remove(
+                  "text-yellow-800",
+                  "bg-yellow-200"
+                );
+                statusBadge.classList.add("text-green-800", "bg-green-200");
+              }
+
+              // Disable the button
+              this.disabled = true;
+              this.classList.remove(
+                "text-brand-medium",
+                "hover:text-brand-dark"
+              );
+              this.classList.add("text-gray-400");
+            }
+          });
+        });
+
+        // --- 2. "Call Next" Logic (Simulated) ---
+
+        // Standard Queue
+        const callStandardBtn = document.getElementById("call-next-standard");
+        const standardQueueBody = document.getElementById(
+          "standard-queue-body"
+        );
+
+        callStandardBtn.addEventListener("click", function () {
+          // Find the first row that is NOT completed
+          const nextRow = standardQueueBody.querySelector(
+            ".queue-row:not(.completed)"
+          );
+
+          if (nextRow) {
+            // Remove 'now-serving' from any other row
+            standardQueueBody
+              .querySelectorAll(".now-serving")
+              .forEach((row) => {
+                row.classList.remove("now-serving");
+              });
+
+            // Add 'now-serving' to the next row
+            nextRow.classList.add("now-serving");
+
+            // Update button text
+            const batch = nextRow.dataset.batch; // Get batch from data-batch attribute
+            this.textContent = `Now Serving (${batch})`;
+          } else {
+            this.textContent = "Queue Clear";
+            this.disabled = true;
+          }
+        });
+
+        // Express Queue
+        const callExpressBtn = document.getElementById("call-next-express");
+        const expressQueueBody = document.getElementById("express-queue-body");
+
+        callExpressBtn.addEventListener("click", function () {
+          // Find the first row that is NOT completed
+          const nextRow = expressQueueBody.querySelector(
+            ".queue-row:not(.completed)"
+          );
+
+          if (nextRow) {
+            // Remove 'now-serving' from any other row
+            expressQueueBody.querySelectorAll(".now-serving").forEach((row) => {
+              row.classList.remove("now-serving");
+            });
+
+            // Add 'now-serving' to the next row
+            nextRow.classList.add("now-serving");
+
+            // Update button text
+            const batch = nextRow.dataset.batch;
+            this.textContent = `Now Serving (${batch})`;
+          } else {
+            this.textContent = "Queue Clear";
+            this.disabled = true;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
