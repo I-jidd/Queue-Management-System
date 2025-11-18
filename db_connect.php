@@ -9,7 +9,35 @@
 $host = getenv('DB_HOST') ?: 'localhost';
 $dbname = getenv('DB_NAME') ?: 'registrar_queue';
 $user = getenv('DB_USER') ?: 'postgres';
-$password = getenv('DB_PASS') ?: '';
+$password = getenv('DB_PASS') ?: 'queue_management';
+
+// Check if PostgreSQL PDO driver is available
+if (!in_array('pgsql', PDO::getAvailableDrivers())) {
+    die("
+    <h2>PostgreSQL PDO Driver Not Found</h2>
+    <p><strong>Error:</strong> PHP PDO PostgreSQL driver (pdo_pgsql) is not installed or enabled.</p>
+    <h3>How to Fix:</h3>
+    <h4>For XAMPP (Windows):</h4>
+    <ol>
+        <li>Open <code>php.ini</code> file (usually in <code>C:\\xampp\\php\\php.ini</code>)</li>
+        <li>Find the line: <code>;extension=pdo_pgsql</code></li>
+        <li>Remove the semicolon to uncomment it: <code>extension=pdo_pgsql</code></li>
+        <li>Also uncomment: <code>extension=pgsql</code></li>
+        <li>Save the file and restart Apache</li>
+    </ol>
+    <h4>For WAMP (Windows):</h4>
+    <ol>
+        <li>Click WAMP icon → PHP → PHP Extensions</li>
+        <li>Check <code>pdo_pgsql</code> and <code>pgsql</code></li>
+        <li>Restart all services</li>
+    </ol>
+    <h4>For Linux (Ubuntu/Debian):</h4>
+    <pre>sudo apt-get install php-pgsql</pre>
+    <h4>For macOS (Homebrew):</h4>
+    <pre>brew install php-pgsql</pre>
+    <p><strong>Note:</strong> After enabling the extension, restart your web server.</p>
+    ");
+}
 
 // Create DSN for PostgreSQL
 $dsn = "pgsql:host=$host;port=5432;dbname=$dbname;";
@@ -22,7 +50,47 @@ try {
         PDO::ATTR_EMULATE_PREPARES => false
     ]);
 } catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
+    $error_message = $e->getMessage();
+    
+    // Provide more helpful error messages
+    if (strpos($error_message, 'could not find driver') !== false) {
+        die("
+        <h2>PostgreSQL PDO Driver Not Found</h2>
+        <p><strong>Error:</strong> PHP PDO PostgreSQL driver (pdo_pgsql) is not installed or enabled.</p>
+        <h3>How to Fix:</h3>
+        <h4>For XAMPP (Windows):</h4>
+        <ol>
+            <li>Open <code>php.ini</code> file (usually in <code>C:\\xampp\\php\\php.ini</code>)</li>
+            <li>Find the line: <code>;extension=pdo_pgsql</code></li>
+            <li>Remove the semicolon to uncomment it: <code>extension=pdo_pgsql</code></li>
+            <li>Also uncomment: <code>extension=pgsql</code></li>
+            <li>Save the file and restart Apache</li>
+        </ol>
+        <h4>For WAMP (Windows):</h4>
+        <ol>
+            <li>Click WAMP icon → PHP → PHP Extensions</li>
+            <li>Check <code>pdo_pgsql</code> and <code>pgsql</code></li>
+            <li>Restart all services</li>
+        </ol>
+        <h4>For Linux (Ubuntu/Debian):</h4>
+        <pre>sudo apt-get install php-pgsql</pre>
+        <h4>For macOS (Homebrew):</h4>
+        <pre>brew install php-pgsql</pre>
+        <p><strong>Note:</strong> After enabling the extension, restart your web server.</p>
+        ");
+    } else {
+        die("
+        <h2>Database Connection Failed</h2>
+        <p><strong>Error:</strong> " . htmlspecialchars($error_message) . "</p>
+        <h3>Please check:</h3>
+        <ul>
+            <li>PostgreSQL server is running</li>
+            <li>Database name is correct: <code>$dbname</code></li>
+            <li>Username and password are correct</li>
+            <li>Database exists and schema is imported</li>
+        </ul>
+        ");
+    }
 }
 
 /**
