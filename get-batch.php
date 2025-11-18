@@ -7,14 +7,15 @@
 require_once 'db_connect.php';
 
 // Get all available services
-$services_query = "SELECT * FROM services ORDER BY service_type, service_name";
-$services_result = $conn->query($services_query);
-
 $services = [];
-if ($services_result && $services_result->num_rows > 0) {
-    while ($row = $services_result->fetch_assoc()) {
-        $services[] = $row;
-    }
+try {
+    $query = "SELECT * FROM services ORDER BY service_type, service_name";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Error fetching services: " . $e->getMessage());
+    $services = [];
 }
 
 // Generate time slots for standard services
