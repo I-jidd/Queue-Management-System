@@ -2,10 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale-1.0" />
-    <title>Registrar Queue System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrar Queue System - Home</title>
 
-    <!-- We're using Tailwind CSS for rapid, clean, responsive design -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -15,17 +14,16 @@
               sans: ["Inter", "sans-serif"],
             },
             colors: {
-              // New CMU Color Palette
               brand: {
-                dark: "#1A472A", // CMU Dark Green
-                medium: "#1E6033", // CMU Medium Green
-                olive: "#8A9A5B", // CMU Olive
-                gold: "#FDCB0A", // CMU Gold
+                dark: "#1A472A",
+                medium: "#1E6033",
+                olive: "#8A9A5B",
+                gold: "#FDCB0A",
               },
               neutral: {
                 light: "#f4f7f6",
                 DEFAULT: "#495057",
-                dark: "#333333", // A more neutral dark for text
+                dark: "#333333",
               },
             },
           },
@@ -33,84 +31,143 @@
       };
     </script>
 
-    <!-- Page Styles -->
     <style>
-      /* Ensures the app takes up the full height */
-      html,
       body {
-        height: 100%;
-        background-color: #f4f7f6; /* Use Tailwind's neutral-light */
+        background-color: #f4f7f6;
       }
     </style>
   </head>
-  <body
-    class="font-sans antialiased text-neutral-DEFAULT flex items-center justify-center min-h-screen p-4"
-  >
+  <body class="font-sans antialiased text-neutral-DEFAULT">
     <!-- Main Container -->
-    <div
-      class="container max-w-2xl w-full mx-auto p-6 md:p-8 bg-white rounded-xl shadow-lg"
-    >
+    <div class="container max-w-4xl w-full mx-auto my-8 p-4">
       <!-- Header -->
       <header
-        class="flex items-center border-b-2 border-gray-200 pb-4 mb-6 md:mb-8"
+        class="flex items-center justify-between p-6 bg-white rounded-xl shadow-lg mb-8"
       >
-        <!-- Updated Placeholder Logo with CMU Dark Green -->
-        <img
-          src="https://placehold.co/50x50/1A472A/FFFFFF?text=LOGO"
-          alt="University Logo"
-          class="rounded-full"
-        />
-        <h1 class="text-xl md:text-2xl font-bold text-brand-dark ml-4">
-          Registrar Queue System
-        </h1>
+        <div class="flex items-center">
+          <img
+            src="https://placehold.co/50x50/1A472A/FFFFFF?text=LOGO"
+            alt="University Logo"
+            class="rounded-full"
+          />
+          <h1 class="text-2xl md:text-3xl font-bold text-brand-dark ml-4">
+            Registrar Queue System
+          </h1>
+        </div>
+        <a
+          href="status.html"
+          class="text-brand-medium hover:text-brand-dark font-semibold"
+        >
+          View Queue Status
+        </a>
       </header>
 
       <!-- Main Content -->
-      <main>
-        <h2
-          class="text-xl md:text-2xl font-semibold text-center mb-6 md:mb-8 text-neutral-dark"
-        >
-          What do you need today?
-        </h2>
+      <main class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+        <!-- Welcome Section -->
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold text-brand-dark mb-4">
+            Welcome to the Registrar Queue System
+          </h2>
+          <p class="text-lg text-neutral-DEFAULT">
+            Get your batch number and manage your visit to the Registrar's
+            Office
+          </p>
+        </div>
 
-        <!-- Button 1: Find a Form or FAQ -->
-        <!-- Now a solid, high-contrast button (CMU Olive) -->
-        <a
-          href="forms.html"
-          class="block w-full p-5 mb-4 text-left bg-brand-olive border-2 border-brand-olive rounded-lg shadow-sm transition-all duration-200 ease-in-out hover:bg-opacity-90 hover:shadow-lg hover:-translate-y-0.5 group"
-        >
-          <div class="text-lg font-semibold text-white">Find a Form or FAQ</div>
-          <div class="text-sm text-gray-100">
-            (For downloading forms or quick answers)
-          </div>
-        </a>
+        <!-- Action Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <!-- Get Batch Number Card -->
+          <a
+            href="get-batch.php"
+            class="block p-6 border-2 border-brand-medium rounded-lg hover:bg-brand-medium hover:text-white transition group"
+          >
+            <div class="flex items-center mb-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-12 w-12 text-brand-medium group-hover:text-white mr-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              <h3
+                class="text-2xl font-bold text-brand-dark group-hover:text-white"
+              >
+                Get Batch Number
+              </h3>
+            </div>
+            <p class="text-neutral-DEFAULT group-hover:text-white">
+              Book your appointment and get your batch number for visiting the
+              Registrar's Office
+            </p>
+          </a>
 
-        <!-- Button 2: Get a Batch Number -->
-        <!-- The primary button (CMU Dark Green) -->
-        <a
-          href="get-batch.html"
-          class="block w-full p-5 text-left bg-brand-dark border-2 border-brand-dark rounded-lg shadow-sm transition-all duration-200 ease-in-out hover:bg-brand-medium hover:border-brand-medium hover:shadow-lg hover:-translate-y-0.5 group"
-        >
-          <div class="text-lg font-semibold text-white">Get a Batch Number</div>
-          <div class="text-sm text-gray-100">
-            (To see registrar staff for a transaction)
+          <!-- Forms & FAQ Card -->
+          <a
+            href="forms.html"
+            class="block p-6 border-2 border-brand-olive rounded-lg hover:bg-brand-olive hover:text-white transition group"
+          >
+            <div class="flex items-center mb-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-12 w-12 text-brand-olive group-hover:text-white mr-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              <h3
+                class="text-2xl font-bold text-brand-dark group-hover:text-white"
+              >
+                Forms & FAQ
+              </h3>
+            </div>
+            <p class="text-neutral-DEFAULT group-hover:text-white">
+              Download forms and find answers to frequently asked questions
+            </p>
+          </a>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="border-t border-gray-200 pt-6">
+          <h3 class="text-xl font-semibold text-neutral-dark mb-4">
+            Quick Links
+          </h3>
+          <div class="flex flex-wrap gap-4">
+            <a
+              href="status.html"
+              class="text-brand-medium hover:text-brand-dark hover:underline font-semibold"
+            >
+              View Queue Status →
+            </a>
+            <a
+              href="admin.html"
+              class="text-brand-medium hover:text-brand-dark hover:underline font-semibold"
+            >
+              Staff Dashboard →
+            </a>
           </div>
-        </a>
+        </div>
       </main>
 
       <!-- Footer -->
       <footer
         class="text-center mt-8 pt-6 border-t border-gray-200 text-sm text-gray-500"
       >
-        <!-- Updated link color -->
-        <p>
-          &copy; 2025 Your University |
-          <a
-            href="#"
-            class="text-brand-medium hover:text-brand-dark hover:underline"
-            >Staff Login</a
-          >
-        </p>
+        <p>&copy; 2025 Your University | Registrar Queue Management System</p>
       </footer>
     </div>
   </body>
