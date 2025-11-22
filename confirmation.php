@@ -250,7 +250,7 @@ if ($booking['service_type'] === 'standard') {
       <!-- Footer -->
       <footer class="text-center mt-8 pt-6 border-t border-gray-200 text-sm text-gray-500 no-print">
         <p>
-          &copy; <?php echo date('Y'); ?> Your University
+          &copy; <?php echo date('Y'); ?> Central Mindanao University
         </p>
       </footer>
     </div>
