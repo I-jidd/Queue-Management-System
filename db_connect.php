@@ -9,7 +9,7 @@
 $host = getenv('DB_HOST') ?: 'localhost';
 $dbname = getenv('DB_NAME') ?: 'registrar_queue';
 $user = getenv('DB_USER') ?: 'postgres';
-$password = getenv('DB_PASS') ?: 'queue_management';
+$password = getenv('DB_PASS') ?: 'supremekaiden';
 
 // Check if PostgreSQL PDO driver is available
 if (!in_array('pgsql', PDO::getAvailableDrivers())) {
