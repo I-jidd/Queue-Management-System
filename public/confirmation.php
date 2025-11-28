@@ -6,8 +6,10 @@
 
 require_once __DIR__ . '/../src/db_connect.php';
 
-// Start session
-session_start();
+// Start session only if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Check if booking was successful
 if (!isset($_SESSION['booking_success']) || !isset($_SESSION['booking_data'])) {

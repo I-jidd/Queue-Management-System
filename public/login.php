@@ -6,7 +6,10 @@
 
 require_once __DIR__ . '/../src/db_connect.php';
 
-session_start();
+// Start session only if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // If already logged in, redirect to dashboard
 if (isset($_SESSION['staff_id'])) {

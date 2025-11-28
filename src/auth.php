@@ -4,7 +4,10 @@
  * Functions to check authentication and protect pages
  */
 
-session_start();
+// Start session only if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 /**
  * Check if user is logged in as staff
@@ -53,7 +56,10 @@ function get_current_staff() {
  * Logout function
  */
 function staff_logout() {
-    session_start();
+    // Ensure session is started
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
     session_unset();
     session_destroy();
     header("Location: login.php");
