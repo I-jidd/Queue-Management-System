@@ -4,17 +4,18 @@
  * Form to select service and get a batch number
  */
 
-require_once 'db_connect.php';
+require_once __DIR__ . '/../src/db_connect.php';
 
 // Get all available services
-$services_query = "SELECT * FROM services ORDER BY service_type, service_name";
-$services_result = $conn->query($services_query);
-
 $services = [];
-if ($services_result && $services_result->num_rows > 0) {
-    while ($row = $services_result->fetch_assoc()) {
-        $services[] = $row;
-    }
+try {
+    $query = "SELECT * FROM services ORDER BY service_type, service_name";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Error fetching services: " . $e->getMessage());
+    $services = [];
 }
 
 // Generate time slots for standard services
@@ -83,9 +84,9 @@ $time_slots = [
         class="flex items-center border-b-2 border-gray-200 pb-4 mb-6 md:mb-8"
       >
         <img
-          src="https://placehold.co/50x50/1A472A/FFFFFF?text=LOGO"
+          src="assets/images/logo.png"
           alt="University Logo"
-          class="rounded-full"
+          class="h-12 w-12 md:h-14 md:w-14 object-contain rounded-full"
         />
         <h1 class="text-xl md:text-2xl font-bold text-brand-dark ml-4">
           Get Your Batch Number
@@ -252,7 +253,7 @@ $time_slots = [
       <!-- Footer -->
       <footer class="text-center mt-8 pt-6 border-t border-gray-200 text-sm text-gray-500">
         <p>
-          &copy; <?php echo date('Y'); ?> Your University
+          &copy; <?php echo date('Y'); ?> Central Mindanao University | Registrar Queue Management System
         </p>
       </footer>
     </div>

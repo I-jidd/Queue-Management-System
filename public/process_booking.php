@@ -4,7 +4,7 @@
  * Handles the booking form submission and creates the booking
  */
 
-require_once 'db_connect.php';
+require_once __DIR__ . '/../src/db_connect.php';
 
 // Start session
 session_start();
@@ -30,16 +30,23 @@ if ($service_id <= 0) {
 }
 
 // Get service information
-$service_query = "SELECT * FROM services WHERE id = $service_id LIMIT 1";
-$service_result = $conn->query($service_query);
-
-if (!$service_result || $service_result->num_rows === 0) {
-    header("Location: get-batch.php?error=service_not_found");
+try {
+    $service_query = "SELECT * FROM services WHERE id = :service_id LIMIT 1";
+    $stmt = $pdo->prepare($service_query);
+    $stmt->execute(['service_id' => $service_id]);
+    $service = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if (!$service) {
+        header("Location: get-batch.php?error=service_not_found");
+        exit();
+    }
+    
+    $service_type = $service['service_type'];
+} catch (PDOException $e) {
+    error_log("Error fetching service: " . $e->getMessage());
+    header("Location: get-batch.php?error=database_error");
     exit();
 }
-
-$service = $service_result->fetch_assoc();
-$service_type = $service['service_type'];
 
 // Validate standard service requirements
 if ($service_type === 'standard') {
@@ -64,31 +71,45 @@ $queue_position = get_next_queue_position($service_type, $booking_date);
 // Insert booking into database
 $status = ($service_type === 'express') ? 'waiting' : 'pending';
 
-$insert_query = "INSERT INTO bookings (
-    batch_number,
-    service_id,
-    service_type,
-    booking_date,
-    time_window,
-    student_name,
-    student_id,
-    student_email,
-    status,
-    queue_position
-) VALUES (
-    '$batch_number',
-    $service_id,
-    '$service_type',
-    " . ($booking_date ? "'$booking_date'" : "NULL") . ",
-    " . ($time_window ? "'$time_window'" : "NULL") . ",
-    " . ($student_name ? "'$student_name'" : "NULL") . ",
-    " . ($student_id ? "'$student_id'" : "NULL") . ",
-    " . ($student_email ? "'$student_email'" : "NULL") . ",
-    '$status',
-    $queue_position
-)";
-
-if ($conn->query($insert_query)) {
+try {
+    $insert_query = "INSERT INTO bookings (
+        batch_number,
+        service_id,
+        service_type,
+        booking_date,
+        time_window,
+        student_name,
+        student_id,
+        student_email,
+        status,
+        queue_position
+    ) VALUES (
+        :batch_number,
+        :service_id,
+        :service_type,
+        :booking_date,
+        :time_window,
+        :student_name,
+        :student_id,
+        :student_email,
+        :status,
+        :queue_position
+    )";
+    
+    $stmt = $pdo->prepare($insert_query);
+    $stmt->execute([
+        'batch_number' => $batch_number,
+        'service_id' => $service_id,
+        'service_type' => $service_type,
+        'booking_date' => $booking_date ?: null,
+        'time_window' => $time_window ?: null,
+        'student_name' => $student_name ?: null,
+        'student_id' => $student_id ?: null,
+        'student_email' => $student_email ?: null,
+        'status' => $status,
+        'queue_position' => $queue_position
+    ]);
+    
     // Store booking data in session for confirmation page
     $_SESSION['booking_success'] = true;
     $_SESSION['booking_data'] = [
@@ -104,8 +125,8 @@ if ($conn->query($insert_query)) {
     // Redirect to confirmation page
     header("Location: confirmation.php");
     exit();
-} else {
-    // Database error
+} catch (PDOException $e) {
+    error_log("Error inserting booking: " . $e->getMessage());
     header("Location: get-batch.php?error=database_error");
     exit();
 }
