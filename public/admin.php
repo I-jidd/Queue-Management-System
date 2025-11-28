@@ -4,8 +4,8 @@
  * Protected admin page that displays and manages the queue
  */
 
-require_once 'db_connect.php';
-require_once 'auth.php';
+require_once __DIR__ . '/../src/db_connect.php';
+require_once __DIR__ . '/../src/auth.php';
 
 // Require staff login
 require_staff_login();

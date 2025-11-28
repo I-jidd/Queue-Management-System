@@ -4,7 +4,7 @@
  * Allows new staff members to create an account
  */
 
-require_once 'db_connect.php';
+require_once __DIR__ . '/../src/db_connect.php';
 
 session_start();
 
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- Header -->
         <div class="text-center mb-8">
           <img
-            src="images/logo.png"
+            src="assets/images/logo.png"
             alt="University Logo"
             class="h-16 w-16 object-contain rounded-full mx-auto mb-4"
           />

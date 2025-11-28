@@ -4,7 +4,7 @@
  * Displays the booking confirmation and checklist
  */
 
-require_once 'db_connect.php';
+require_once __DIR__ . '/../src/db_connect.php';
 
 // Start session
 session_start();
@@ -148,7 +148,7 @@ if ($booking['service_type'] === 'standard') {
         class="flex items-center border-b-2 border-gray-200 pb-4 mb-6 md:mb-8"
       >
         <img
-          src="images/logo.png"
+          src="assets/images/logo.png"
           alt="University Logo"
           class="h-12 w-12 md:h-14 md:w-14 object-contain rounded-full"
         />

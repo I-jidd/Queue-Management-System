@@ -1,0 +1,35 @@
+databases:
+  - name: queue-management-db
+    databaseName: registrar_queue
+    plan: free
+
+services:
+  - type: web
+    name: queue-management-service
+    env: docker
+    plan: free
+    autoDeploy: true
+    dockerfilePath: Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: queue-management-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: queue-management-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: queue-management-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: queue-management-db
+          property: user
+      - key: DB_PASS
+        fromDatabase:
+          name: queue-management-db
+          property: password
+

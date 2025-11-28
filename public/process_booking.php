@@ -4,7 +4,7 @@
  * Handles the booking form submission and creates the booking
  */
 
-require_once 'db_connect.php';
+require_once __DIR__ . '/../src/db_connect.php';
 
 // Start session
 session_start();
