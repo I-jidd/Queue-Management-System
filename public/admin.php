@@ -137,16 +137,30 @@ function format_date($date) {
         <div>
           <h1 class="text-2xl font-bold">Staff Dashboard</h1>
           <p class="text-sm opacity-90">
-            Welcome, <?php echo htmlspecialchars($staff['name']); ?> | 
-            <a href="logout.php" class="hover:underline">Logout</a>
+            Welcome, <?php echo htmlspecialchars($staff['name']); ?> 
+            <?php if (isset($staff['role']) && $staff['role'] === 'admin'): ?>
+              <span class="ml-2 px-2 py-0.5 bg-brand-gold text-brand-dark text-xs font-bold rounded">ADMIN</span>
+            <?php endif; ?>
+            | <a href="logout.php" class="hover:underline">Logout</a>
           </p>
         </div>
-        <a
-          href="index.html"
-          class="font-semibold text-white hover:text-gray-200 hover:underline"
-        >
-          &larr; Back to Student Site
-        </a>
+        <div class="flex items-center gap-4">
+          <?php if (isset($staff['role']) && $staff['role'] === 'admin'): ?>
+            <a
+              href="signup.php"
+              class="px-4 py-2 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-yellow-400 transition"
+              title="Create new staff account"
+            >
+              + Create Staff
+            </a>
+          <?php endif; ?>
+          <a
+            href="index.html"
+            class="font-semibold text-white hover:text-gray-200 hover:underline"
+          >
+            &larr; Back to Student Site
+          </a>
+        </div>
       </header>
 
       <main class="mt-6 bg-white rounded-xl shadow-lg p-6 md:p-8">
