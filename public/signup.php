@@ -43,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 // Create new staff account
                 $password_hash = password_hash($password, PASSWORD_DEFAULT);
-                $insert_query = "INSERT INTO staff (username, password_hash, full_name, email, role) 
-                                VALUES (:username, :password_hash, :full_name, :email, 'staff')";
+                $insert_query = "INSERT INTO staff (username, password_hash, full_name, email, role, is_active) 
+                                VALUES (:username, :password_hash, :full_name, :email, 'staff', TRUE)";
                 
                 $insert_stmt = $pdo->prepare($insert_query);
                 $insert_stmt->execute([
