@@ -65,7 +65,4 @@ function staff_logout() {
     header("Location: login.php");
     exit();
 }
-?>
-
-
 
