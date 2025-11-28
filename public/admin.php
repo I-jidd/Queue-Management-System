@@ -148,20 +148,6 @@ function format_date($date) {
         <div class="flex items-center gap-4">
           <?php if (isset($staff['role']) && $staff['role'] === 'admin'): ?>
             <a
-              href="check_staff.php"
-              class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
-              title="View all staff accounts"
-            >
-              View Staff
-            </a>
-            <a
-              href="test_login.php"
-              class="px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition"
-              title="Test staff login"
-            >
-              Test Login
-            </a>
-            <a
               href="signup.php"
               class="px-4 py-2 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-yellow-400 transition"
               title="Create new staff account"

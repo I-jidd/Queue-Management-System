@@ -41,20 +41,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($check_stmt->fetch()) {
                 $error = 'Username already exists. Please choose another.';
             } else {
-                // Create new staff account
-                $password_hash = password_hash($password, PASSWORD_DEFAULT);
+                // Create new staff account - ensure password is properly hashed
+                // Remove any potential whitespace or hidden characters
+                $password = trim($password);
+                
+                // Generate password hash with explicit cost parameter for consistency
+                $password_hash = password_hash($password, PASSWORD_BCRYPT, ['cost' => 10]);
+                
+                // Verify the hash was created successfully
+                if (!$password_hash) {
+                    throw new Exception('Failed to generate password hash.');
+                }
+                
+                // Verify the hash works before inserting
+                if (!password_verify($password, $password_hash)) {
+                    throw new Exception('Password hash verification failed during creation.');
+                }
+                
                 $insert_query = "INSERT INTO staff (username, password_hash, full_name, email, role, is_active) 
                                 VALUES (:username, :password_hash, :full_name, :email, 'staff', TRUE)";
                 
                 $insert_stmt = $pdo->prepare($insert_query);
-                $insert_stmt->execute([
+                $result = $insert_stmt->execute([
                     'username' => $username,
                     'password_hash' => $password_hash,
                     'full_name' => $full_name,
                     'email' => $email ?: null
                 ]);
                 
-                $success = 'Staff account created successfully! The new staff member can now login with their credentials.';
+                if (!$result) {
+                    throw new Exception('Failed to insert staff account.');
+                }
+                
+                // Double-check the password works after insertion
+                $verify_query = "SELECT password_hash FROM staff WHERE username = :username LIMIT 1";
+                $verify_stmt = $pdo->prepare($verify_query);
+                $verify_stmt->execute(['username' => $username]);
+                $saved_staff = $verify_stmt->fetch(PDO::FETCH_ASSOC);
+                
+                if ($saved_staff && password_verify($password, $saved_staff['password_hash'])) {
+                    $success = 'Staff account created successfully! The new staff member can now login with their credentials.';
+                } else {
+                    // If verification fails, delete the account and show error
+                    $delete_query = "DELETE FROM staff WHERE username = :username";
+                    $delete_stmt = $pdo->prepare($delete_query);
+                    $delete_stmt->execute(['username' => $username]);
+                    $error = 'Account was created but password verification failed. Please try again.';
+                }
             }
         } catch (PDOException $e) {
             error_log("Signup error: " . $e->getMessage());
