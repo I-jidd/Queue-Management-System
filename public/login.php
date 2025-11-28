@@ -153,16 +153,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </button>
         </form>
 
-        <!-- Signup Link -->
+        <!-- Admin Note -->
         <div class="mt-6 text-center">
           <p class="text-sm text-neutral-DEFAULT">
-            Don't have an account?
-            <a
-              href="signup.php"
-              class="text-brand-medium hover:text-brand-dark font-semibold"
-            >
-              Sign up here
-            </a>
+            Staff accounts can only be created by administrators.
+            <br>
+            <span class="text-xs text-gray-500">Contact your system administrator for access.</span>
           </p>
         </div>
 

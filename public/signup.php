@@ -1,18 +1,17 @@
 <?php
 /**
  * STAFF SIGNUP PAGE
- * Allows new staff members to create an account
+ * Allows admins to create new staff accounts
+ * SECURED: Only admins can access this page
  */
 
 require_once __DIR__ . '/../src/db_connect.php';
+require_once __DIR__ . '/../src/auth.php';
 
-session_start();
+// Require admin login - only admins can create staff accounts
+require_admin_login();
 
-// If already logged in, redirect to dashboard
-if (isset($_SESSION['staff_id'])) {
-    header("Location: admin.php");
-    exit();
-}
+$staff = get_current_staff();
 
 $error = '';
 $success = '';
@@ -55,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'email' => $email ?: null
                 ]);
                 
-                $success = 'Account created successfully! You can now login.';
+                $success = 'Staff account created successfully! The new staff member can now login with their credentials.';
             }
         } catch (PDOException $e) {
             error_log("Signup error: " . $e->getMessage());
@@ -113,8 +112,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             alt="University Logo"
             class="h-16 w-16 object-contain rounded-full mx-auto mb-4"
           />
-          <h1 class="text-2xl font-bold text-brand-dark">Staff Signup</h1>
-          <p class="text-neutral-DEFAULT mt-2">Create a new staff account</p>
+          <h1 class="text-2xl font-bold text-brand-dark">Create Staff Account</h1>
+          <p class="text-neutral-DEFAULT mt-2">Admin Only - Create a new staff account</p>
+          <p class="text-xs text-gray-500 mt-1">Logged in as: <?php echo htmlspecialchars($staff['name'] ?? 'Admin'); ?></p>
         </div>
 
         <!-- Error Message -->
@@ -128,12 +128,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php if ($success): ?>
         <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
           <?php echo htmlspecialchars($success); ?>
-          <div class="mt-2">
+          <div class="mt-3 flex gap-2">
             <a
-              href="login.php"
-              class="text-brand-medium hover:text-brand-dark font-semibold"
+              href="signup.php"
+              class="px-4 py-2 bg-brand-medium text-white font-semibold rounded-lg hover:bg-brand-dark transition text-sm"
             >
-              Go to Login →
+              Create Another Account
+            </a>
+            <a
+              href="admin.php"
+              class="px-4 py-2 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition text-sm"
+            >
+              Back to Dashboard
             </a>
           </div>
         </div>
@@ -237,26 +243,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
         <?php endif; ?>
 
-        <!-- Login Link -->
+        <!-- Back to Dashboard -->
         <div class="mt-6 text-center">
-          <p class="text-sm text-neutral-DEFAULT">
-            Already have an account?
-            <a
-              href="login.php"
-              class="text-brand-medium hover:text-brand-dark font-semibold"
-            >
-              Login here
-            </a>
-          </p>
-        </div>
-
-        <!-- Back to Home -->
-        <div class="mt-4 text-center">
           <a
-            href="index.html"
-            class="text-sm text-neutral-DEFAULT hover:text-brand-medium"
+            href="admin.php"
+            class="text-sm text-brand-medium hover:text-brand-dark font-semibold"
           >
-            ← Back to Home
+            ← Back to Dashboard
           </a>
         </div>
       </div>

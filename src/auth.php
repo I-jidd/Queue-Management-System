@@ -18,6 +18,23 @@ function require_staff_login() {
 }
 
 /**
+ * Check if user is logged in as admin
+ * Redirects to login page if not authenticated or not admin
+ */
+function require_admin_login() {
+    if (!isset($_SESSION['staff_id'])) {
+        header("Location: login.php");
+        exit();
+    }
+    
+    if (isset($_SESSION['staff_role']) && $_SESSION['staff_role'] !== 'admin') {
+        // Not an admin, redirect to dashboard
+        header("Location: admin.php");
+        exit();
+    }
+}
+
+/**
  * Get current staff information
  */
 function get_current_staff() {
