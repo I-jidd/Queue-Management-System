@@ -28,12 +28,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Please enter both username and password.';
     } else {
         try {
-            $query = "SELECT * FROM staff WHERE username = :username AND is_active = TRUE LIMIT 1";
-            $stmt = $pdo->prepare($query);
-            $stmt->execute(['username' => $username]);
-            $staff = $stmt->fetch(PDO::FETCH_ASSOC);
+            // First check if account exists (without is_active check)
+            $check_query = "SELECT * FROM staff WHERE username = :username LIMIT 1";
+            $check_stmt = $pdo->prepare($check_query);
+            $check_stmt->execute(['username' => $username]);
+            $staff = $check_stmt->fetch(PDO::FETCH_ASSOC);
             
-            if ($staff && password_verify($password, $staff['password_hash'])) {
+            if (!$staff) {
+                $error = 'Invalid username or password.';
+            } elseif (!$staff['is_active']) {
+                $error = 'Your account is inactive. Please contact an administrator.';
+            } elseif (!password_verify($password, $staff['password_hash'])) {
+                $error = 'Invalid username or password.';
+            } else {
                 // Login successful
                 $_SESSION['staff_id'] = $staff['id'];
                 $_SESSION['staff_username'] = $staff['username'];
@@ -42,8 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 header("Location: admin.php");
                 exit();
-            } else {
-                $error = 'Invalid username or password.';
             }
         } catch (PDOException $e) {
             error_log("Login error: " . $e->getMessage());

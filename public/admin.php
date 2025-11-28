@@ -155,6 +155,13 @@ function format_date($date) {
               View Staff
             </a>
             <a
+              href="test_login.php"
+              class="px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition"
+              title="Test staff login"
+            >
+              Test Login
+            </a>
+            <a
               href="signup.php"
               class="px-4 py-2 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-yellow-400 transition"
               title="Create new staff account"
